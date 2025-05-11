@@ -1,0 +1,80 @@
+/* Dark mode specific styles */
+.dark body {
+    @apply bg-dark-primary text-white;
+  }
+  
+  .dark .card {
+    @apply bg-dark-secondary border-dark-elevated;
+  }
+  
+  .dark .input {
+    @apply bg-dark-elevated border-gray-700 text-white placeholder:text-gray-500;
+  }
+  
+  .dark .button-primary {
+    @apply bg-burgundy-600 text-white hover:bg-burgundy-700;
+  }
+  
+  .dark .button-secondary {
+    @apply bg-dark-elevated text-white border-gray-700 hover:bg-dark-secondary;
+  }
+  
+  .dark .nav-link {
+    @apply text-gray-300 hover:text-white;
+  }
+  
+  .dark .footer {
+    @apply bg-dark-secondary text-gray-300 border-t border-gray-800;
+  }
+  
+  .dark .product-card {
+    @apply bg-dark-secondary hover:shadow-lg hover:shadow-black/20;
+  }
+  
+  .dark .modal {
+    @apply bg-dark-secondary border-dark-elevated;
+  }
+  
+  .dark .dropdown {
+    @apply bg-dark-secondary border-gray-700;
+  }
+  
+  .dark .dropdown-item {
+    @apply hover:bg-dark-elevated text-gray-300 hover:text-white;
+  }
+  
+  .dark .badge {
+    @apply bg-burgundy-700 text-white;
+  }
+  
+  .dark .divider {
+    @apply border-gray-800;
+  }
+  
+  .dark .price {
+    @apply text-white;
+  }
+  
+  .dark .price-discount {
+    @apply text-burgundy-400;
+  }
+  
+  .dark .alert-success {
+    @apply bg-emerald-custom/20 text-emerald-custom border-emerald-custom/30;
+  }
+  
+  .dark .alert-error {
+    @apply bg-burgundy-950 text-burgundy-300 border-burgundy-900;
+  }
+  
+  .dark .alert-info {
+    @apply bg-navy/20 text-blue-300 border-navy/30;
+  }
+  
+  /* Theme transition */
+  .transition-theme {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+  
