@@ -29,20 +29,25 @@ export const fetchFromAPI = async (endpoint: string, options: RequestInit = {}) 
   try {
     const response = await fetchWithTimeout(url, {
       ...options,
+      credentials: 'include',
       headers: {
         "Content-Type": "application/json",
         ...options.headers,
       },
     });
 
-    const data = await response.json()
-    return { response, data }
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return { response, data };
   } catch (error) {
     if (error instanceof Error && error.name === 'AbortError') {
       throw new Error('Request timeout - please try again');
     }
-    console.error(`API request error for ${url}:`, error)
-    throw error
+    throw error;
   }
 }
 
@@ -54,11 +59,17 @@ export const authAPI = {
         method: "POST",
         body: JSON.stringify({ username, email, password, role }),
       })
-      return { success: response.ok, data }
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Registration failed');
+      }
+
+      return { success: true, data }
     } catch (error) {
+      const message = error instanceof Error ? error.message : 'Registration failed';
       return { 
         success: false, 
-        data: { message: error instanceof Error ? error.message : 'Registration failed' }
+        data: { message }
       }
     }
   },
@@ -69,11 +80,17 @@ export const authAPI = {
         method: "POST",
         body: JSON.stringify({ email, password }),
       })
-      return { success: response.ok, data }
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      return { success: true, data }
     } catch (error) {
+      const message = error instanceof Error ? error.message : 'Login failed';
       return { 
         success: false, 
-        data: { message: error instanceof Error ? error.message : 'Login failed' }
+        data: { message }
       }
     }
   },
@@ -84,11 +101,17 @@ export const authAPI = {
         method: "POST",
         body: JSON.stringify({ email, password }),
       })
-      return { success: response.ok, data }
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Admin login failed');
+      }
+
+      return { success: true, data }
     } catch (error) {
+      const message = error instanceof Error ? error.message : 'Admin login failed';
       return { 
         success: false, 
-        data: { message: error instanceof Error ? error.message : 'Admin login failed' }
+        data: { message }
       }
     }
   },
@@ -101,11 +124,17 @@ export const authAPI = {
           Authorization: `Bearer ${token}`,
         },
       })
-      return { success: response.ok, data }
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Auth check failed');
+      }
+
+      return { success: true, data }
     } catch (error) {
+      const message = error instanceof Error ? error.message : 'Auth check failed';
       return { 
         success: false, 
-        data: { message: error instanceof Error ? error.message : 'Auth check failed' }
+        data: { message }
       }
     }
   },
