@@ -102,15 +102,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const { success, data } = await authAPI.login(email, password)
 
       if (!success) {
-        return false
+        throw new Error(data.message || 'Login failed');
       }
 
       if (data.token) {
         localStorage.setItem("token", data.token)
+        setUser(data.user)
+        return true
       }
-
-      setUser(data.user)
-      return true
+      return false
     } catch (error) {
       return false
     }
@@ -121,15 +121,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const { success, data } = await authAPI.adminLogin(email, password)
 
       if (!success) {
-        return false
+        throw new Error(data.message || 'Admin login failed');
       }
 
       if (data.token) {
         localStorage.setItem("token", data.token)
+        setUser({ ...data.user, isAdmin: true })
+        return true
       }
-
-      setUser({ ...data.user, isAdmin: true })
-      return true
+      return false
     } catch (error) {
       return false
     }
@@ -140,15 +140,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const { success, data } = await authAPI.register(username, email, password, role)
 
       if (!success) {
-        return false
+        throw new Error(data.message || 'Registration failed');
       }
 
       if (data.token) {
         localStorage.setItem("token", data.token)
+        setUser(data.user)
+        return true
       }
-
-      setUser(data.user)
-      return true
+      return false
     } catch (error) {
       return false
     }
